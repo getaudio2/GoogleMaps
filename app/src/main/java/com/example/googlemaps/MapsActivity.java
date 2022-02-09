@@ -95,14 +95,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void getAddress(double lat, double lng) {
         try {
+            //Declare Geocoder
             Geocoder geo = new Geocoder(this.getApplicationContext(), Locale.getDefault());
+
+            //Geocoder transforms latitude and longitude to street address
+            //The address is stored inside a List of addresses
             List<Address> addresses = geo.getFromLocation(lat, lng, 1);
+
             if (addresses.isEmpty()) {
+                //No address stored
                 Toast.makeText(this, "No s’ha trobat informació", Toast.LENGTH_LONG).show();
             } else {
                 if (addresses.size() > 0) {
+                    //Get address parameters and put them inside a string
                     String msg =addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName();
-
+                    //Show string with address parameters
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 }
             }
