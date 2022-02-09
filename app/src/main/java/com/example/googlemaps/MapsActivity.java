@@ -2,8 +2,11 @@ package com.example.googlemaps;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,6 +16,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.googlemaps.databinding.ActivityMapsBinding;
+
+import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -39,7 +45,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onMapClick(LatLng latLng) {
                         Log.d("Tag", "onMapClick");
-                        startMap();
+
+                        Log.i("LatLng", "Latitud: " + latLng.latitude + ", longitud: " + latLng.longitude);
+                        getAddress(latLng.latitude, latLng.longitude);
                     }
                 });
 
@@ -48,7 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onCameraMoveStarted(int reason) {
                         if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
                             Log.d("Tag", "onCameraMoveStarted");
-                            startMap();
+
                         }
                     }
                 });
@@ -57,7 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         Log.d("Tag", "onMarkerClick");
-                        startMap();
                         return true;
                     }
                 });
@@ -85,4 +92,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
+
+    public void getAddress(double lat, double lng) {
+        try {
+            Geocoder geo = new Geocoder(this.getApplicationContext(), Locale.getDefault());
+            List<Address> addresses = geo.getFromLocation(lat, lng, 1);
+            if (addresses.isEmpty()) {
+                Toast.makeText(this, "No s’ha trobat informació", Toast.LENGTH_LONG).show();
+            } else {
+                if (addresses.size() > 0) {
+                    String msg =addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName();
+
+                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        catch(Exception e){
+            Toast.makeText(this, "No Location Name Found", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
