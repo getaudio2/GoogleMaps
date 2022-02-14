@@ -29,7 +29,7 @@ public class ApiThread extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... voids) {
         URL url = null;
         try {
-            url = new URL("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400");
+            url = new URL("https://api.sunrise-sunset.org/json?lat=" + latitude + "&lng=" + longitude);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             // Read API results

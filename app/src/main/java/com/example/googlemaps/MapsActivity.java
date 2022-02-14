@@ -31,6 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final int AccessLocationRequestCode = 1;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    private ApiThread apiThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         Log.i("LatLng", "Latitud: " + latLng.latitude + ", longitud: " + latLng.longitude);
                         getAddress(latLng.latitude, latLng.longitude);
+
+                        apiThread = new ApiThread( "" + latLng.latitude, "" + latLng.longitude);
 
                         mMap.addMarker(new MarkerOptions().position(latLng).title("Marker set"));
                     }
