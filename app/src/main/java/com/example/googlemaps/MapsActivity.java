@@ -58,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         getAddress(latLng.latitude, latLng.longitude);
 
                         apiThread = new ApiThread( "" + latLng.latitude, "" + latLng.longitude);
+                        apiThread.execute();
 
                         mMap.addMarker(new MarkerOptions().position(latLng).title("Marker set"));
                     }
