@@ -2,6 +2,7 @@ package com.example.googlemaps;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +20,8 @@ public class ApiThread extends AsyncTask<Void, Void, String> {
     private String latitude;
     private String longitude;
     private JSONObject jObject;
+
+    MapsActivity instance;
 
     public ApiThread(String latitude, String longitude){
         this.latitude = latitude;
