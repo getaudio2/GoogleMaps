@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.googlemaps.model.ModelApi;
+import com.example.googlemaps.modelPhotos.ModelApiPhotos;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -79,7 +80,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         ApiCall apiCall = retrofit.create(ApiCall.class);
                         Call<ModelApi> call = apiCall.getData("" + latLng.latitude, "" + latLng.longitude);
 
-
+                        ApiPhotosCall apiPhotosCall = retrofit.create(ApiPhotosCall.class);
+                        Call<ModelApiPhotos> callPhotos = apiPhotosCall.getData("" + latLng.latitude, "" + latLng.longitude);
 
                         call.enqueue(new Callback<ModelApi>(){
                             @Override
@@ -95,6 +97,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             @Override
                             public void onFailure(Call<ModelApi> call, Throwable t) {
                                 Log.i("testApi","Failure");
+                            }
+                        });
+
+                        callPhotos.enqueue(new Callback<ModelApiPhotos>(){
+                            @Override
+                            public void onResponse(Call<ModelApiPhotos> call, Response<ModelApiPhotos> response) {
+                                if(response.code()!=200){
+                                    Log.i("testApiPhotos", "checkConnection");
+                                    return;
+                                }
+
+                                Log.i("testApiPhotos", response.body().getStatus() + " - " + response.body().getPhotos().getPage());
+                            }
+
+                            @Override
+                            public void onFailure(Call<ModelApiPhotos> call, Throwable t) {
+                                Log.i("testApiPhotos","Failure");
                             }
                         });
 
