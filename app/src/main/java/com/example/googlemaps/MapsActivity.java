@@ -200,7 +200,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     //Get address parameters and put them inside a string
                     String msg =addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName();
                     //Show string with address parameters
-                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 }
             }
         }
