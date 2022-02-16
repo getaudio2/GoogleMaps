@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.googlemaps.model.ModelApi;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,6 +27,12 @@ import com.example.googlemaps.databinding.ActivityMapsBinding;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
 
     private final int AccessLocationRequestCode = 1;
@@ -36,6 +43,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.sunrise-sunset.org/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiCall apiCall = retrofit.create(ApiCall.class);
+        Call<ModelApi> call = apiCall.getData("lat", "lng"); // Change to variables
+
+        call.enqueue(new Callback<ModelApi>(){
+            @Override
+            public void onResponse(Call<ModelApi> call, Response<ModelApi> response) {
+                if(response.code()!=200){
+                    Log.i("testApi", "checkConnection");
+                    return;
+                }
+
+                Log.i("testApi", response.body().getStatus() + " - " + response.body().getResults().getSunrise());
+            }
+
+            @Override
+            public void onFailure(Call<ModelApi> call, Throwable t) {
+                Log.i("testApi","Failure");
+            }
+        });
+
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
