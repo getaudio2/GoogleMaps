@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.googlemaps.model.ApiCall;
 import com.example.googlemaps.model.ModelApi;
+import com.example.googlemaps.modelPhotos.ApiPhotosCall;
 import com.example.googlemaps.modelPhotos.ModelApiPhotos;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -77,12 +79,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.i("LatLng", "Latitud: " + latLng.latitude + ", longitud: " + latLng.longitude);
                         getAddress(latLng.latitude, latLng.longitude);
 
+                        // API CALL
                         ApiCall apiCall = retrofit.create(ApiCall.class);
                         Call<ModelApi> call = apiCall.getData("" + latLng.latitude, "" + latLng.longitude);
 
+                        // API PHOTOS CALL
                         ApiPhotosCall apiPhotosCall = retrofit.create(ApiPhotosCall.class);
                         Call<ModelApiPhotos> callPhotos = apiPhotosCall.getData("" + latLng.latitude, "" + latLng.longitude);
 
+                        // CALL
                         call.enqueue(new Callback<ModelApi>(){
                             @Override
                             public void onResponse(Call<ModelApi> call, Response<ModelApi> response) {
@@ -100,9 +105,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }
                         });
 
+                        // CALL PHOTOS
                         callPhotos.enqueue(new Callback<ModelApiPhotos>(){
                             @Override
-                            public void onResponse(Call<ModelApiPhotos> call, Response<ModelApiPhotos> response) {
+                            public void onResponse(Call<ModelApiPhotos> callPhotos, Response<ModelApiPhotos> response) {
                                 if(response.code()!=200){
                                     Log.i("testApiPhotos", "checkConnection");
                                     return;
@@ -112,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }
 
                             @Override
-                            public void onFailure(Call<ModelApiPhotos> call, Throwable t) {
+                            public void onFailure(Call<ModelApiPhotos> callPhotos, Throwable t) {
                                 Log.i("testApiPhotos","Failure");
                             }
                         });

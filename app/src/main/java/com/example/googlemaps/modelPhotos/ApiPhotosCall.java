@@ -1,4 +1,4 @@
-package com.example.googlemaps;
+package com.example.googlemaps.modelPhotos;
 
 import com.example.googlemaps.modelPhotos.ModelApiPhotos;
 

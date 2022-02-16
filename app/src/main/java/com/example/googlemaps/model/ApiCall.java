@@ -1,4 +1,4 @@
-package com.example.googlemaps;
+package com.example.googlemaps.model;
 
 import com.example.googlemaps.model.ModelApi;
 
