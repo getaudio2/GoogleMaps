@@ -40,6 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     private ApiThread apiThread;
     private Retrofit retrofit;
+    private Retrofit retrofitPhotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.sunrise-sunset.org/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        retrofitPhotos = new Retrofit.Builder()
+                .baseUrl("https://www.flickr.com/services/rest/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -72,6 +78,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         ApiCall apiCall = retrofit.create(ApiCall.class);
                         Call<ModelApi> call = apiCall.getData("" + latLng.latitude, "" + latLng.longitude);
+
+
 
                         call.enqueue(new Callback<ModelApi>(){
                             @Override
