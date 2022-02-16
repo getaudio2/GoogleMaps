@@ -18,6 +18,7 @@ import com.example.googlemaps.model.ApiCall;
 import com.example.googlemaps.model.ModelApi;
 import com.example.googlemaps.modelPhotos.ApiPhotosCall;
 import com.example.googlemaps.modelPhotos.ModelApiPhotos;
+import com.example.googlemaps.modelPhotos.Photo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.googlemaps.databinding.ActivityMapsBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -84,8 +86,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Call<ModelApi> call = apiCall.getData("" + latLng.latitude, "" + latLng.longitude);
 
                         // API PHOTOS CALL
-                        ApiPhotosCall apiPhotosCall = retrofit.create(ApiPhotosCall.class);
-                        Call<ModelApiPhotos> callPhotos = apiPhotosCall.getData("" + latLng.latitude, "" + latLng.longitude);
+                        ApiPhotosCall apiPhotosCall = retrofitPhotos.create(ApiPhotosCall.class);
+                        //Call<ModelApiPhotos> callPhotos = apiPhotosCall.getData("" + latLng.latitude, "" + latLng.longitude);
+                        Call<ModelApiPhotos> callPhotos = apiPhotosCall.getData();
 
                         // CALL
                         call.enqueue(new Callback<ModelApi>(){
@@ -114,7 +117,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     return;
                                 }
 
-                                Log.i("testApiPhotos", response.body().getStatus() + " - " + response.body().getPhotos().getPage());
+                                ArrayList<Photo> photos = response.body().getPhotos().getPhotos();
+
+                                for (int i = 0; i < 5; i++) {
+                                    Log.i("testApiPhotos", response.body().getStatus() + " - " + photos.size());
+                                }
                             }
 
                             @Override
