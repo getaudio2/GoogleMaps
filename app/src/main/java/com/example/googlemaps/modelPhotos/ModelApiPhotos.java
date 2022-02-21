@@ -4,11 +4,11 @@ import com.example.googlemaps.model.ModelResults;
 
 public class ModelApiPhotos {
 
-    public String status;
+    public String stat;
     public Photos photos;
 
-    public String getStatus() {
-        return status;
+    public String getStat() {
+        return stat;
     }
 
     public Photos getPhotos() {

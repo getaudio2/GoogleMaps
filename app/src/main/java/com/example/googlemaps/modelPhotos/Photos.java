@@ -8,7 +8,7 @@ public class Photos {
     public int pages;
     public int perpage;
     public int total;
-    public ArrayList<Photo> photos;
+    public ArrayList<Photo> photo;
 
     public int getPage() {
         return page;
@@ -26,7 +26,7 @@ public class Photos {
         return total;
     }
 
-    public ArrayList<Photo> getPhotos() {
-        return photos;
+    public ArrayList<Photo> getPhoto() {
+        return photo;
     }
 }

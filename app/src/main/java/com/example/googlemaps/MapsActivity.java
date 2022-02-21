@@ -87,8 +87,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         // API PHOTOS CALL
                         ApiPhotosCall apiPhotosCall = retrofitPhotos.create(ApiPhotosCall.class);
-                        //Call<ModelApiPhotos> callPhotos = apiPhotosCall.getData("" + latLng.latitude, "" + latLng.longitude);
-                        Call<ModelApiPhotos> callPhotos = apiPhotosCall.getData();
+                        Call<ModelApiPhotos> callPhotos = apiPhotosCall.getData("" + latLng.latitude, "" + latLng.longitude);
+                        //Call<ModelApiPhotos> callPhotos = apiPhotosCall.getData();
 
                         // CALL
                         call.enqueue(new Callback<ModelApi>(){
@@ -117,10 +117,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     return;
                                 }
 
-                                ArrayList<Photo> photos = response.body().getPhotos().getPhotos();
+                                ArrayList<Photo> photos = new ArrayList<Photo>();
+                                photos = response.body().getPhotos().getPhoto();
 
-                                for (int i = 0; i < 5; i++) {
-                                    Log.i("testApiPhotos", response.body().getStatus() + " - " + photos.size());
+                                if (photos.size() == 0) {
+                                    Log.i("testApiPhotos", "Error: zero photos");
+                                } else {
+                                    for (int i = 0; i < 5; i++) {
+                                        Log.i("testApiPhotos", response.body().getStat() + " - " + photos.get(i));
+                                    }
                                 }
                             }
 
