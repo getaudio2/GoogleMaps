@@ -1,6 +1,7 @@
 package com.example.googlemaps;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +26,13 @@ public class SlidingAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return urls.size();
     }
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return false;
+        return view == object;
+
     }
 
     @Override
@@ -43,10 +45,12 @@ public class SlidingAdapter extends PagerAdapter {
         View imageLayout = LayoutInflater.from(view.getContext()).inflate(R.layout.item_image, view, false);
 
         final ImageView imageView = imageLayout.findViewById(R.id.imageView);
+        Log.i("slider", "------" + urls.get(position));
 
         GlideApp.with(context)
                 .load(urls.get(position))
                 .into(imageView);
+
 
         Objects.requireNonNull(view).addView(imageLayout);
 

@@ -19,6 +19,7 @@ public class PageView extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         urls = extras.getStringArrayList("photosurls");
+        Log.i("slider", urls.get(0));
 
         ViewPager mPager = findViewById(R.id.vpager);
         mPager.setAdapter(new SlidingAdapter(this, urls));

@@ -126,10 +126,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     Log.i("testApiPhotos", "Error: zero photos");
                                 } else {
                                     for (int i = 0; i < 5; i++) {
-                                        Photo photo = photos.get(i);
-                                        String url = "https://live.staticflickr.com/" + photo.getServer() + "/" + photo.getId() +  "_" + photo.getSecret() + "_w.jpg";
-                                        photosUrls.add(url);
-                                        Log.i("testApiPhotos", response.body().getStat() + " - " + url);
+                                        if (i < photos.size()) {
+                                            Photo photo = photos.get(i);
+                                            String url = "https://live.staticflickr.com/" + photo.getServer() + "/" + photo.getId() +  "_" + photo.getSecret() + "_b.jpg";
+                                            photosUrls.add(url);
+                                            Log.i("testApiPhotos", response.body().getStat() + " - " + url);
+                                        }
                                     }
 
                                     Intent intent = new Intent(MapsActivity.this, PageView.class);
