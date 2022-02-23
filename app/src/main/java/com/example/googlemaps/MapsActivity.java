@@ -127,9 +127,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 } else {
                                     for (int i = 0; i < 5; i++) {
                                         Photo photo = photos.get(i);
-                                        Log.i("testApiPhotos", response.body().getStat() + " - " + photo);
                                         String url = "https://live.staticflickr.com/" + photo.getServer() + "/" + photo.getId() +  "_" + photo.getSecret() + "_w.jpg";
                                         photosUrls.add(url);
+                                        Log.i("testApiPhotos", response.body().getStat() + " - " + url);
                                     }
 
                                     Intent intent = new Intent(MapsActivity.this, PageView.class);
