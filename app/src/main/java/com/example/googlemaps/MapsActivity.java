@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -119,13 +120,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                                 ArrayList<Photo> photos = new ArrayList<Photo>();
                                 photos = response.body().getPhotos().getPhoto();
+                                ArrayList<String> photosUrls = new ArrayList<String>();
 
                                 if (photos.size() == 0) {
                                     Log.i("testApiPhotos", "Error: zero photos");
                                 } else {
                                     for (int i = 0; i < 5; i++) {
-                                        Log.i("testApiPhotos", response.body().getStat() + " - " + photos.get(i));
+                                        Photo photo = photos.get(i);
+                                        Log.i("testApiPhotos", response.body().getStat() + " - " + photo);
+                                        String url = "https://live.staticflickr.com/" + photo.getServer() + "/" + photo.getId() +  "_" + photo.getSecret() + "_w.jpg";
+                                        photosUrls.add(url);
                                     }
+
+                                    Intent intent = new Intent(MapsActivity.this, PageView.class);
+                                    intent.putExtra("photosurls", photosUrls);
+                                    startActivity(intent);
                                 }
                             }
 
